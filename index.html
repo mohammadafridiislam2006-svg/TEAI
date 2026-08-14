@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Afridi - Portfolio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <style>
+    /* ==========================================================================
+       1. CSS VARIABLES & THEME CONFIGURATION
+       ========================================================================== */
+    :root {
+      /* Dark Mode Defaults (Matching Screenshot) */
+      --bg-color: #171717;
+      --card-bg: #222222;
+      --border-color: #262626;
+      --text-main: #ffffff;
+      --text-muted: #a3a3a3;
+      --btn-primary-bg: #ffffff;
+      --btn-primary-text: #171717;
+      --btn-secondary-bg: #262626;
+      --btn-secondary-text: #ffffff;
+      --hero-bg-center: #222222;
+      --hex-border: rgba(255, 255, 255, 0.15);
+      --icon-sun: inline-block;
+      --icon-moon: none;
+    }
+
+    /* Light/Day Mode Override when toggle checkbox is checked */
+    #theme-toggle-check:checked ~ .site-wrapper {
+      --bg-color: #f8f9fa;
+      --card-bg: #ffffff;
+      --border-color: #e5e5e5;
+      --text-main: #171717;
+      --text-muted: #666666;
+      --btn-primary-bg: #171717;
+      --btn-primary-text: #ffffff;
+      --btn-secondary-bg: #e5e5e5;
+      --btn-secondary-text: #171717;
+      --hero-bg-center: #ffffff;
+      --hex-border: rgba(0, 0, 0, 0.15);
+    }
+
+    /* --- Reset --- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+    }
+
+    /* Hide the checkbox trigger */
+    #theme-toggle-check {
+      display: none;
+    }
+
+    .site-wrapper {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: var(--bg-color);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* ==========================================================================
+       2. HEADER & NAVIGATION
+       ========================================================================== */
+    header {
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      background-color: var(--bg-color);
+      z-index: 100;
+    }
+
+    .navbar {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 2rem;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .nav-links a:hover {
+      color: var(--text-main);
+    }
+
+    /* Mode Switch Button Label */
+    .theme-toggle-btn {
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .theme-toggle-btn:hover {
+      color: var(--text-main);
+    }
+
+    /* Dynamic switch text using CSS pseudo-elements */
+    .mode-label::after {
+      content: "Night mode";
+    }
+
+    #theme-toggle-check:checked ~ .site-wrapper .mode-label::after {
+      content: "Day mode";
+    }
+
+    /* ==========================================================================
+       3. SECTION LAYOUTS
+       ========================================================================== */
+    .section-container {
+      max-width: 1100px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+    }
+
+    /* --- Hero / Home Section --- */
+    #home {
+      min-height: calc(100vh - 80px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at center, var(--hero-bg-center) 0%, var(--bg-color) 70%);
+      padding: 4rem 2rem;
+    }
+
+    .hero-container {
+      max-width: 1100px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 3rem;
+    }
+
+    .hero-text h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .hero-text p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background-color: var(--btn-primary-bg);
+      color: var(--btn-primary-text);
+    }
+
+    .btn-secondary {
+      background-color: var(--btn-secondary-bg);
+      color: var(--btn-secondary-text);
+      border: 1px solid var(--border-color);
+    }
+
+    /* Pure CSS Hexagon Pattern */
+    .hero-graphics {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hexagon-container {
+      position: relative;
+      width: 260px;
+      height: 260px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hexagon {
+      position: absolute;
+      border: 1px solid var(--hex-border);
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    }
+
+    .hex-1 { width: 260px; height: 260px; }
+    .hex-2 { width: 200px; height: 200px; }
+    .hex-3 { width: 140px; height: 140px; }
+    .hex-4 { width: 80px;  height: 80px; }
+
+    /* --- Cards Grid (Projects & Posts) --- */
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .card-body {
+      padding: 1.5rem;
+    }
+
+    .card-body h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    .card-body p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* --- About Section Layout --- */
+    .about-content {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .about-img {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
+
+    .about-text p {
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 1rem;
+      font-size: 1.05rem;
+    }
+
+    /* ==========================================================================
+       4. FOOTER
+       ========================================================================== */
+    footer {
+      border-top: 1px solid var(--border-color);
+      background-color: var(--bg-color);
+      padding: 1.5rem 2rem;
+      margin-top: auto;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .footer-center p {
+      display: inline-block;
+      margin-right: 0.5rem;
+    }
+
+    .footer-center a {
+      text-decoration: underline;
+    }
+
+    .footer-right {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .footer-right a {
+      font-size: 1.1rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero-container, .about-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .hero-buttons {
+        justify-content: center;
+      }
+      .footer-container {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Invisible Theme Switch Checkbox -->
+  <input type="checkbox" id="theme-toggle-check" />
+
+  <!-- Main Wrapper -->
+  <div class="site-wrapper">
+
+    <!-- Navbar -->
+    <header>
+      <nav class="navbar">
+        <a href="#home" class="logo"><i class="fa-solid fa-sparkles"></i> AI-TE</a>
+        <ul class="nav-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#projects">Works</a></li>
+          <li><a href="#posts">Experties</a></li>
+          <li><a href="#about">About</a></li>
+          <li>
+            <!-- Switch Label -->
+            <label for="theme-toggle-check" class="theme-toggle-btn">
+              <i class="fa-regular fa-moon"></i>
+              <span class="mode-label"></span>
+            </label>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- SECTION 1: HOME (Landing Page - No Images) -->
+    <section id="home">
+      <div class="hero-container">
+        <div class="hero-text">
+          <h1>Hello, I'm AFRIDI</h1>
+          <p> I’m a passionate Textile Engineering student at BGMEA University of Fashion and Technology (BUFT).
+
+Fascinated by the world of textiles, I love exploring everything from yarn structure to basic machinery operations.
+
+I’ve presented on key topics including Organic Chemistry and Textile Physics during my academic journey.
+
+My curiosity drives me to research fabric mechanics and the complex chemistry behind modern textiles.
+
+As a dedicated beginner, I am constantly building my hands-on knowledge to help shape the future of the industry.</p>
+          <div class="hero-buttons">
+            <a href="#about" class="btn btn-primary">View About <i class="fa-solid fa-arrow-right"></i></a>
+            <a href="#posts" class="btn btn-secondary">Read More <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="hero-graphics">
+          <div class="hexagon-container">
+            <div class="hexagon hex-1"></div>
+            <div class="hexagon hex-2"></div>
+            <div class="hexagon hex-3"></div>
+            <div class="hexagon hex-4"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: PROJECTS (With Images) -->
+    <section id="projects" class="section-container">
+      <h2 class="section-title">My Work</h2>
+      <div class="grid-container">
+        <div class="card">
+          <img src="./images/TP.png" alt="Project 1" />
+          <div class="card-body">
+            <h3>Textile Physics</h3>
+            <p>Phase Change Material Type Fabric In Textile. How Its Phase Work At environment ?</p>
+          </div>
+        </div>
+        <div class="card">
+          <img src="./images/OG.png" alt="Project 2" />
+          <div class="card-body">
+            <h3>Organic Chemistry In Textile</h3>
+            <p>Target & ligands Work In Textile Also In Dyeing. Effect of ligands in dyeing.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: POSTS (With Images) -->
+    <section id="posts" class="section-container">
+      <h2 class="section-title">Expertise</h2>
+      <div class="grid-container">
+        <div class="card">
+          <img src="./images/b.png" alt="Post 1" />
+          <div class="card-body">
+            <h3>Web & Software Development</h3>
+            <p>Proficient in HTML and CSS for building modern, responsive web layouts.
+Skilled in C++ programming and software development using the Code::Blocks IDE.</p>
+          </div>
+        </div>
+        <div class="card">
+          <img src="./images/d.png" alt="Post 2" />
+          <div class="card-body">
+            <h3>Digital Media & Productivity</h3>
+            <p>Creative in video editing, photography, and graphic design to produce engaging visual content.
+Experienced in Excel for structured data organization, calculations, and workflow management.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: ABOUT (With Profile Image) -->
+    <section id="about" class="section-container">
+      <h2 class="section-title">About Me</h2>
+      <div class="about-content">
+        <img src="./images/PF.png" alt="Profile" class="about-img" />
+        <div class="about-text">
+          <p>I am a naturally driven Textile Engineering student currently pursuing my degree at BUFT (BGMEA University of Fashion and Technology). My core academic focus is in Wet Processing, where I delve deep into the chemical treatments, dyeing, and finishing of fabrics.
+
+</p>
+          <p>To bridge theory with real-world practice, I have visited leading industry facilities and garments, including A-ONE Polar, AMC Factory, Sonnet Garments, and Beximco. These experiences have given me a solid practical foundation alongside my studies, reinforcing my passion for innovation in textile chemistry and manufacturing.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-container">
+        <div class="footer-left">
+          <span class="logo"><i class="fa-solid fa-sparkles"></i> INFO ---></span>
+        </div>
+        <div class="footer-center">
+          <p>&copy; 2026 (Afridi Islam). Developed by <a href="#">Myself.</a></p>
+        </div>
+        <div class="footer-right">
+          <a href="https://www.facebook.com/sweetXchaosXpumpkin"><i class="fa-brands fa-facebook"></i></a>
+          <a href="https://github.com/mohammadafridiislam2006-svg"><i class="fa-brands fa-github"></i></a>
+          <a href="https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox"><i class="fa-regular fa-envelope"></i></a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+</body>
+</html>
